@@ -1,5 +1,5 @@
 - name: Reboot the machine
-  shells: "sleep 5 && reboot"
+    shell: "sleep 5 && reboot"
 
   async: 1
   poll: 0
