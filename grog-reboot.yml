@@ -1,7 +1,22 @@
 ---
-- hosts: servers
-  become: yes
-  serial: 1
-  roles:
-    reboot_interval: 'yes'
-    reboot_interval_seconds: 60
+# tasks file for reboot
+
+- name: Reboot host
+  shell: sleep 2 && shutdown -r now "{{ reboot_message }}"
+  async: 1
+  poll: 0
+  ignore_errors: yes
+
+- name: Wait for host
+  wait_for_connection:
+    connect_timeout: "{{ reboot_connect_timeout }}"
+    sleep: "{{ reboot_wait_ctimeout }}"
+    delay: "{{ reboot_wait_delay }}"
+    timeout: "{{ reboot_wait_timeout }}"
+  when: reboot_wait|bool
+
+- name: Interval before next task
+  become: no
+  pause:
+    seconds: "{{ reboot_interval_seconds }}"
+  when: reboot_interval|bool
