@@ -3,6 +3,5 @@
   become: yes
   serial: 1
   roles:
-  - role: GROG.reboot
     reboot_interval: 'yes'
     reboot_interval_seconds: 60
